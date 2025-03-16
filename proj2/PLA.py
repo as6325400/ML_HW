@@ -15,7 +15,22 @@ def PLA(DataLoader: DataLoader) -> np.ndarray:
     weight_matrix = np.zeros(3)
     s = time.time()
     ############ START ##########
-
+    random_index = np.random.randint(len(DataLoader.data))
+    random_point = DataLoader.data[random_index][1:]
+    while True:
+        
+        error_point = []
+        
+        for idx in range(len(DataLoader.data)):
+            point = np.array([1, DataLoader.data[idx][1], DataLoader.data[idx][2]])
+            if np.sign(np.dot(weight_matrix, point)) != DataLoader.label[idx]:
+                error_point.append([point, DataLoader.label[idx]])
+                
+        if len(error_point) == 0:
+            break
+        random_index = np.random.randint(len(error_point))
+        random_point, error_label = error_point[random_index]
+        weight_matrix += error_label * random_point
     ############ END ############
     e = time.time()
     print("ex time : %f" % (e-s))
