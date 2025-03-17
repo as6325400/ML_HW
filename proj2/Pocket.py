@@ -5,6 +5,11 @@ import os
 import matplotlib.pyplot as plt
 import time
 
+def count_error_num(weight_matrix: np.array, DataLoader: DataLoader) -> int:
+    data_points = np.array([[1, d[1], d[2]] for d in DataLoader.data])
+    predictions = np.sign(np.dot(data_points, weight_matrix))
+    return sum(predictions != DataLoader.label)
+    
 
 def pocket(DataLoader: DataLoader) -> np.ndarray:
     """
@@ -15,7 +20,25 @@ def pocket(DataLoader: DataLoader) -> np.ndarray:
     weight_matrix = np.zeros(3)
     s = time.time()
     ############ START ##########
-
+    max_iterations = 50
+    error_num = count_error_num(weight_matrix, DataLoader)
+    indices = np.random.permutation(len(DataLoader.data))
+    DataLoader.data = [DataLoader.data[i] for i in indices]
+    DataLoader.label = [DataLoader.label[i] for i in indices]
+    
+    
+    for _ in range(max_iterations):
+        if error_num == 0:
+            break
+        
+        for idx in range(len(DataLoader.data)):
+            point = np.array([1, DataLoader.data[idx][1], DataLoader.data[idx][2]])
+            if np.sign(np.dot(weight_matrix, point)) != DataLoader.label[idx]:
+                tmp_weight_matrix = weight_matrix + DataLoader.label[idx] * point
+                tmp_error_num = count_error_num(tmp_weight_matrix, DataLoader)
+                if  tmp_error_num < error_num:
+                    weight_matrix = tmp_weight_matrix
+                    error_num = tmp_error_num       
     ############ END ############
     e = time.time()
     print("ex time = %f" % (e-s))
