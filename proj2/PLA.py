@@ -19,8 +19,9 @@ def PLA(DataLoader: DataLoader) -> np.ndarray:
     indices = np.random.permutation(len(DataLoader.data))
     DataLoader.data = [DataLoader.data[i] for i in indices]
     DataLoader.label = [DataLoader.label[i] for i in indices]
-    
+    count = 0;
     while True:
+        count += 1
         flag = 0
         for idx in range(len(DataLoader.data)):
             point = np.array([1, DataLoader.data[idx][1], DataLoader.data[idx][2]])
@@ -33,6 +34,7 @@ def PLA(DataLoader: DataLoader) -> np.ndarray:
             break
     ############ END ############
     e = time.time()
+    print(f"iteration times {count}")
     print("ex time : %f" % (e-s))
     return weight_matrix
 

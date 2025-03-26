@@ -42,6 +42,7 @@ def pocket(DataLoader: DataLoader) -> np.ndarray:
     ############ END ############
     e = time.time()
     print("ex time = %f" % (e-s))
+    print(f"error nums: {count_error_num(weight_matrix, DataLoader)}")
     return weight_matrix
 
 
