@@ -14,7 +14,20 @@ def Linear_Regression(DataLoader: DataLoader):
     weights = np.zeros(2)
     Ein = 0
     ############ START ##########
-
+    W = np.ones((len(DataLoader.data), 2))
+    for idx, data in enumerate(DataLoader.data):
+        W[idx][0] = data[0]
+        
+    Y = np.array([data[1] for data in DataLoader.data])
+    
+    weights = np.linalg.pinv(W.T @ W) @ W.T @ Y
+    
+    for data in DataLoader.data:
+        Ein += (data[1] - (weights[0] * data[0] + weights[1]))**2
+        
+    Ein = Ein / len(DataLoader.data)
+    
+    print(weights)
     ############ END ############
     return weights, Ein
 
