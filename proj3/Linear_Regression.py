@@ -53,7 +53,7 @@ def main(args):
 
     x = np.linspace(-100, 100, 10)
     # This is your regression line
-    y = weights[1]*x + weights[0]
+    y = weights[0]*x + weights[1]
     plt.plot(x, y, 'g', label='regression line', linewidth='1')
     plt.legend()
     plt.show()
