@@ -45,7 +45,8 @@ def main(args):
 
     # This part is for plotting the graph
     plt.title(
-        'Linear Regression, Ein = %.2f' % (Ein))
+        'Linear Regression, Ein = %.2f, \n Weight = [%.4f, %.4f], Gradient Ein = 0' % (Ein, weights[0], weights[1])
+    )
     plt.xlim(-100, 100)
     plt.ylim(-100, 100)
     Data = np.array(Loader.data)
