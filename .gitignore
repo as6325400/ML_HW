@@ -1,3 +1,11 @@
 mlhw
 */__pycache__
 *.zip
+proj4/data
+proj4/as6325400_hw4
+proj4/result/*
+!proj4/result/.gitkeep
+proj4/weights/*
+!proj4/weights/.gitkeep
+proj4/test_log.jsonl
+proj4/.envrc
