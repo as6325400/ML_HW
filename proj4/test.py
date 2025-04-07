@@ -10,6 +10,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--weight', type=str, required=True, help='Path to the weight file')
+parser.add_argument('--loss', type=str, default='ce', choices=['ce', 'bce', 'focal'], help='Loss function: ce / bce / focal')
 parser.add_argument('--log', type=str, default='test_log.jsonl', help='Path to JSONL log file')
 args = parser.parse_args()
 
@@ -18,7 +19,8 @@ test_data_path = os.path.join(base_path, "data", "test")
 weight_path = os.path.join(base_path, "weights", args.weight)
 
 # load model and use weights we saved before
-model = ExampleCNN()
+num_classes = 2 if args.loss == 'ce' else 1
+model = ExampleCNN(num_classes)
 model.load_state_dict(torch.load(weight_path, weights_only=True))
 model = model.to(device)
 
@@ -32,7 +34,14 @@ with torch.no_grad():
         data, target = data.to(device), target.to(device)
 
         output = model(data)
-        predict_correct += (output.data.max(1)[1] == target.data).sum()
+
+        if args.loss == 'ce':
+            preds = output.data.max(1)[1]
+        else:
+            output = output.squeeze(1)
+            preds = (torch.sigmoid(output) > 0.5).long()
+
+        predict_correct += (preds == target).sum()
         
     accuracy = 100. * predict_correct / len(test_loader.dataset)
 print(f'Test accuracy: {accuracy:.4f}%')

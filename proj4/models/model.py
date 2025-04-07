@@ -3,7 +3,7 @@ import torch
 
 # In project 4, you don't need to adjust the model architecture.
 class ExampleCNN(nn.Module):
-    def __init__(self):
+    def __init__(self, output = 2):
         super(ExampleCNN, self).__init__()
 
         self.cnn1 = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=1, padding=1)
@@ -19,7 +19,7 @@ class ExampleCNN(nn.Module):
         self.relu4 = nn.ReLU()
         self.fc2 = nn.Linear(512, 512)
         self.relu5 = nn.ReLU()
-        self.fc3 = nn.Linear(512, 2)
+        self.fc3 = nn.Linear(512, output)
 
     def forward(self, x):
 
