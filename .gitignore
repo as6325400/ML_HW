@@ -1,5 +1,5 @@
 mlhw
-*/__pycache__
+**/__pycache__
 *.zip
 proj4/data
 proj4/as6325400_hw4
