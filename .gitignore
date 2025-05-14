@@ -9,3 +9,4 @@ proj4/weights/*
 !proj4/weights/.gitkeep
 proj4/test_log.jsonl
 proj4/.envrc
+proj9/img_align_celeba
